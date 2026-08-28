@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>जय माधोरा धाम - धार्मिक ज्ञान क्विज</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    padding:15px;
+    font-family:Arial,sans-serif;
+    background:#fff;
+    color:#222;
+}
+
+.container{
+    max-width:700px;
+    margin:auto;
+}
+
+h1{
+    text-align:center;
+    font-size:32px;
+    margin:10px 0;
+}
+
+h2,h3{
+    text-align:center;
+}
+
+.creator{
+    text-align:center;
+    margin:15px 0;
+}
+
+.creator-name{
+    font-size:25px;
+    font-weight:bold;
+}
+
+.creator-photo{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    object-fit:cover;
+    margin-top:10px;
+}
+
+/*
+================================================
+तुम्हारी फोटो
+================================================
+
+फोटो को Code के अंदर रखने के लिए यहाँ फोटो का
+Base64 Data आएगा।
+*/
+
+.creator-photo{
+    /*
+    यहाँ फोटो Code के अंदर रहेगी।
+    */
+}
+
+
+/*
+================================================
+हनुमान जी की फोटो
+================================================
+*/
+
+.hanuman-photo{
+    width:100%;
+    max-height:430px;
+    object-fit:cover;
+    border-radius:15px;
+    display:block;
+    margin:15px auto;
+}
+
+
+/*
+================================================
+MAIN BOX
+================================================
+*/
+
+.box{
+    border:1px solid #ddd;
+    border-radius:15px;
+    padding:18px;
+    margin-top:15px;
+}
+
+
+/*
+================================================
+INPUT
+================================================
+*/
+
+input{
+    width:100%;
+    padding:14px;
+    font-size:17px;
+    border:1px solid #aaa;
+    border-radius:8px;
+    margin:10px 0;
+}
+
+
+/*
+================================================
+BUTTON
+================================================
+*/
+
+button{
+    width:100%;
+    padding:14px;
+    margin:8px 0;
+    border:none;
+    border-radius:9px;
+    font-size:17px;
+    cursor:pointer;
+}
+
+
+/*
+================================================
+OPTION
+================================================
+*/
+
+.option{
+    text-align:left;
+}
+
+
+/*
+================================================
+TIMER
+================================================
+*/
+
+#timer{
+    text-align:center;
+    font-size:22px;
+    font-weight:bold;
+    margin:15px 0;
+}
+
+
+/*
+================================================
+QUESTION
+================================================
+*/
+
+#questionText{
+    font-size:20px;
+    line-height:1.6;
+}
+
+
+/*
+================================================
+REVIEW
+================================================
+*/
+
+.reviewBox{
+    border:1px solid #ccc;
+    border-radius:10px;
+    padding:14px;
+    margin:10px 0;
+}
+
+
+/*
+================================================
+HIDE
+================================================
+*/
+
+.hidden{
+    display:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+
+<!-- ============================================
+HEADER
+============================================= -->
+
+<div class="creator">
+
+<h1>🙏 जय माधोरा धाम 🙏</h1>
+
+<div class="creator-name">
+निर्माता: प्रियांश यादव
+</div>
+
+
+<!-- ============================================
+तुम्हारी फोटो
+============================================= -->
+
+<img
+class="creator-photo"
+id="creatorPhoto"
+alt="प्रियांश यादव"
+src="data:image/jpeg;base64,
+यहाँ तुम्हारी फोटो का Base64 Code रहेगा
+">
+
+
+</div>
+
+
+<!-- ============================================
+हनुमान जी की फोटो
+============================================= -->
+
+<img
+class="hanuman-photo"
+id="hanumanPhoto"
+alt="हनुमान जी"
+src="data:image/jpeg;base64,
+यहाँ हनुमान जी की फोटो का Base64 Code रहेगा
+">
+
+
+<!-- ============================================
+START SCREEN
+============================================= -->
+
+<div
+id="startScreen"
+class="box"
+>
+
+<h2>📿 धार्मिक ज्ञान Quiz</h2>
+
+<p style="text-align:center;">
+कुल प्रश्न: <b>50</b>
+</p>
+
+<p style="text-align:center;">
+हर प्रश्न में 4 विकल्प होंगे।
+</p>
+
+<p style="text-align:center;">
+एक प्रश्न में केवल <b>एक विकल्प</b> चुना जा सकता है।
+</p>
+
+<input
+id="userName"
+type="text"
+placeholder="अपना नाम लिखें"
+>
+
+<button onclick="startQuiz()">
+▶️ Quiz शुरू करें
+</button>
+
+<button onclick="speakText('जय माधोरा धाम धार्मिक ज्ञान क्विज में आपका स्वागत है।')">
+🔊 स्वागत संदेश सुनें
+</button>
+
+</div>
+
+
+<!-- ============================================
+QUIZ SCREEN
+============================================= -->
+
+<div
+id="quizScreen"
+class="box hidden"
+>
+
+<h2 id="questionNumber"></h2>
+
+<div id="timer">
+⏱️ 02:00:00
+</div>
+
+<button onclick="speakCurrentQuestion()">
+🔊 प्रश्न सुनें
+</button>
+
+<h3 id="questionText"></h3>
+
+<div id="options"></div>
+
+</div>
+
+
+<!-- ============================================
+SUBMIT SCREEN
+============================================= -->
+
+<div
+id="submitScreen"
+class="box hidden"
+>
+
+<h2>📋 Quiz पूरा हो गया</h2>
+
+<p style="text-align:center;">
+आपने सभी प्रश्नों का उत्तर दे दिया है।
+</p>
+
+<button onclick="submitQuiz()">
+✅ Submit Quiz
+</button>
+
+</div>
+
+
+<!-- ============================================
+RESULT SCREEN
+============================================= -->
+
+<div
+id="resultScreen"
+class="box hidden"
+>
+
+<h2>🎉 आपका Result</h2>
+
+<h3 id="resultName"></h3>
+
+<p id="correctResult"></p>
+
+<p id="wrongResult"></p>
+
+<p id="percentageResult"></p>
+
+<p id="dateResult"></p>
+
+<button onclick="showReview()">
+📖 Review देखें
+</button>
+
+<button onclick="downloadResult()">
+📥 Result डाउनलोड करें
+</button>
+
+<button onclick="shareResult()">
+📤 Result Share करें
+</button>
+
+<button onclick="restartQuiz()">
+🔄 फिर से Quiz दें
+</button>
+
+</div>
+
+
+<!-- ============================================
+REVIEW SCREEN
+============================================= -->
+
+<div
+id="reviewScreen"
+class="box hidden"
+>
+
+<h2>📖 Quiz Review</h2>
+
+<div id="review"></div>
+
+<button onclick="restartQuiz()">
+🔄 फिर से Quiz दें
+</button>
+
+</div>
+
+
+<!-- ============================================
+अब भाग 2 यहीं से शुरू होगा
+============================================= -->
+  <script>
+
+/* =====================================================
+50 धार्मिक प्रश्न
+===================================================== */
+
+const questions = [
+
+{
+q:"भगवान श्रीकृष्ण का जन्म किस नगर में माना जाता है?",
+o:["अयोध्या","मथुरा","काशी","द्वारका"],
+a:1
+},
+
+{
+q:"भगवान श्रीराम की जन्मभूमि किस नगर को माना जाता है?",
+o:["मथुरा","अयोध्या","उज्जैन","हरिद्वार"],
+a:1
+},
+
+{
+q:"श्रीमद्भगवद्गीता किस महाकाव्य का भाग है?",
+o:["रामायण","महाभारत","रामचरितमानस","मनुस्मृति"],
+a:1
+},
+
+{
+q:"भगवद्गीता का उपदेश भगवान श्रीकृष्ण ने किसे दिया था?",
+o:["अर्जुन","भीम","युधिष्ठिर","नकुल"],
+a:0
+},
+
+{
+q:"महाभारत में पांडवों की संख्या कितनी थी?",
+o:["तीन","चार","पाँच","छह"],
+a:2
+},
+
+{
+q:"भगवान श्रीराम के पिता का नाम क्या था?",
+o:["जनक","दशरथ","वसुदेव","शांतनु"],
+a:1
+},
+
+{
+q:"भगवान श्रीराम की माता का नाम क्या था?",
+o:["कौशल्या","कैकेयी","सुमित्रा","देवकी"],
+a:0
+},
+
+{
+q:"भगवान श्रीकृष्ण के पिता का नाम क्या था?",
+o:["दशरथ","वसुदेव","नंद","जनक"],
+a:1
+},
+
+{
+q:"भगवान श्रीकृष्ण की माता का नाम क्या था?",
+o:["यशोदा","देवकी","कौशल्या","सुभद्रा"],
+a:1
+},
+
+{
+q:"भगवान श्रीकृष्ण का पालन-पोषण मुख्य रूप से किसने किया?",
+o:["दशरथ और कौशल्या","नंद और यशोदा","वसुदेव और देवकी","पांडु और कुंती"],
+a:1
+},
+
+{
+q:"हनुमान जी को किसका भक्त माना जाता है?",
+o:["भगवान शिव","भगवान विष्णु","भगवान श्रीराम","भगवान गणेश"],
+a:2
+},
+
+{
+q:"भगवान श्रीराम की पत्नी का नाम क्या था?",
+o:["द्रौपदी","सीता","राधा","रुक्मिणी"],
+a:1
+},
+
+{
+q:"सीता जी के पिता का नाम क्या था?",
+o:["दशरथ","जनक","वसुदेव","द्रोणाचार्य"],
+a:1
+},
+
+{
+q:"श्रीराम के साथ वनवास में कौन गए थे?",
+o:["भरत और शत्रुघ्न","लक्ष्मण और सीता","हनुमान और सुग्रीव","विभीषण और अंगद"],
+a:1
+},
+
+{
+q:"भगवान श्रीराम को कितने वर्षों के वनवास का आदेश मिला था?",
+o:["10 वर्ष","12 वर्ष","14 वर्ष","16 वर्ष"],
+a:2
+},
+
+{
+q:"लंका का राजा कौन था?",
+o:["कंस","रावण","दुर्योधन","जरासंध"],
+a:1
+},
+
+{
+q:"रावण का कौन-सा भाई श्रीराम की शरण में आया?",
+o:["कुंभकर्ण","विभीषण","मेघनाद","मारीच"],
+a:1
+},
+
+{
+q:"महाभारत में अर्जुन के सारथी कौन बने थे?",
+o:["भीष्म","श्रीकृष्ण","द्रोणाचार्य","विदुर"],
+a:1
+},
+
+{
+q:"महाभारत में कौरवों की संख्या कितनी बताई जाती है?",
+o:["50","75","100","105"],
+a:2
+},
+
+{
+q:"कौरवों के सबसे प्रमुख राजकुमार का नाम क्या था?",
+o:["दुर्योधन","अर्जुन","अभिमन्यु","नकुल"],
+a:0
+},
+
+{
+q:"पांडवों की माता का नाम क्या था?",
+o:["कुंती","गांधारी","देवकी","सत्यवती"],
+a:0
+},
+
+{
+q:"कौरवों की माता का नाम क्या था?",
+o:["कुंती","गांधारी","द्रौपदी","सुभद्रा"],
+a:1
+},
+
+{
+q:"अर्जुन के पुत्र का नाम क्या था?",
+o:["अभिमन्यु","परीक्षित","घटोत्कच","लव"],
+a:0
+},
+
+{
+q:"भीम के पुत्र का नाम क्या था?",
+o:["अभिमन्यु","घटोत्कच","परीक्षित","शत्रुघ्न"],
+a:1
+},
+
+{
+q:"द्रौपदी का विवाह किनसे हुआ था?",
+o:["केवल अर्जुन से","पाँचों पांडवों से","केवल भीम से","कौरवों से"],
+a:1
+},
+
+{
+q:"महाभारत का युद्ध मुख्य रूप से कहाँ हुआ था?",
+o:["कुरुक्षेत्र","मथुरा","अयोध्या","काशी"],
+a:0
+},
+
+{
+q:"भगवान गणेश को किसका पुत्र माना जाता है?",
+o:["शिव और पार्वती","विष्णु और लक्ष्मी","ब्रह्मा और सरस्वती","सूर्य और संज्ञा"],
+a:0
+},
+
+{
+q:"भगवान गणेश का वाहन क्या माना जाता है?",
+o:["मोर","मूषक","नंदी","गरुड़"],
+a:1
+},
+
+{
+q:"भगवान शिव का वाहन क्या माना जाता है?",
+o:["गरुड़","नंदी","मोर","मूषक"],
+a:1
+},
+
+{
+q:"भगवान विष्णु का वाहन क्या माना जाता है?",
+o:["गरुड़","नंदी","मूषक","मोर"],
+a:0
+},
+
+{
+q:"माता लक्ष्मी को मुख्य रूप से किसकी देवी माना जाता है?",
+o:["विद्या","धन और समृद्धि","युद्ध","वर्षा"],
+a:1
+},
+
+{
+q:"माता सरस्वती को मुख्य रूप से किसकी देवी माना जाता है?",
+o:["विद्या और ज्ञान","धन","युद्ध","समुद्र"],
+a:0
+},
+
+{
+q:"भगवान शिव के प्रमुख आयुधों में कौन-सा है?",
+o:["सुदर्शन चक्र","त्रिशूल","गदा","धनुष"],
+a:1
+},
+
+{
+q:"भगवान विष्णु के प्रमुख आयुधों में कौन-सा है?",
+o:["त्रिशूल","सुदर्शन चक्र","परशु","धनुष"],
+a:1
+},
+
+{
+q:"भगवान शिव को किस नाम से भी जाना जाता है?",
+o:["महादेव","रघुनाथ","गोविंद","जानकीनाथ"],
+a:0
+},
+
+{
+q:"भगवान विष्णु के दस अवतारों के समूह को क्या कहा जाता है?",
+o:["त्रिमूर्ति","दशावतार","पंचतत्व","नवग्रह"],
+a:1
+},
+
+{
+q:"नरसिंह अवतार में भगवान विष्णु का कौन-सा रूप बताया गया है?",
+o:["मनुष्य और मछली","मनुष्य और सिंह","मनुष्य और वराह","मनुष्य और कछुआ"],
+a:1
+},
+
+{
+q:"वराह अवतार में किस रूप का वर्णन मिलता है?",
+o:["सिंह","वराह","मछली","कछुआ"],
+a:1
+},
+
+{
+q:"कूर्म अवतार में किस रूप का वर्णन है?",
+o:["कछुआ","सिंह","घोड़ा","मछली"],
+a:0
+},
+
+{
+q:"मत्स्य अवतार में किस रूप का वर्णन है?",
+o:["मछली","कछुआ","वराह","सिंह"],
+a:0
+},
+
+{
+q:"दीपावली का प्रमुख संबंध किससे है?",
+o:["प्रकाश और दीपों से","केवल वर्षा से","केवल फसल से","केवल खेल से"],
+a:0
+},
+
+{
+q:"होली का प्रमुख संबंध किससे है?",
+o:["रंगों के उत्सव से","दीपों के उत्सव से","केवल वर्षा से","केवल फसल काटने से"],
+a:0
+},
+
+{
+q:"नवरात्रि में किस देवी की विशेष पूजा की जाती है?",
+o:["देवी दुर्गा","माता सरस्वती","माता लक्ष्मी","गंगा"],
+a:0
+},
+
+{
+q:"महाशिवरात्रि किस देवता से संबंधित पर्व है?",
+o:["भगवान विष्णु","भगवान शिव","भगवान गणेश","भगवान सूर्य"],
+a:1
+},
+
+{
+q:"जन्माष्टमी किसके जन्मोत्सव के रूप में मनाई जाती है?",
+o:["भगवान श्रीराम","भगवान श्रीकृष्ण","भगवान गणेश","भगवान शिव"],
+a:1
+},
+
+{
+q:"राम नवमी किसके जन्मोत्सव से संबंधित है?",
+o:["श्रीराम","श्रीकृष्ण","हनुमान जी","गणेश जी"],
+a:0
+},
+
+{
+q:"गणेश चतुर्थी किस देवता की पूजा से संबंधित है?",
+o:["भगवान गणेश","भगवान शिव","भगवान विष्णु","भगवान सूर्य"],
+a:0
+},
+
+{
+q:"रक्षाबंधन में सामान्यतः कौन-सा संबंध विशेष रूप से मनाया जाता है?",
+o:["भाई-बहन","गुरु-शिष्य","मित्र-मित्र","राजा-प्रजा"],
+a:0
+},
+
+{
+q:"चार वेदों में कौन-सा वेद शामिल है?",
+o:["ऋग्वेद","नाट्यवेद","धर्मवेद","योगवेद"],
+a:0
+},
+
+{
+q:"हिंदू परंपरा में कुल कितने वेद माने जाते हैं?",
+o:["दो","तीन","चार","पाँच"],
+a:2
+},
+
+{
+q:"'ॐ' को सामान्यतः किस रूप में जाना जाता है?",
+o:["पवित्र प्रणव/ध्वनि","एक पर्व","एक नदी","एक मंदिर"],
+a:0
+},
+
+{
+q:"गंगा नदी का धार्मिक महत्व किस परंपरा में विशेष रूप से माना जाता है?",
+o:["हिंदू धार्मिक परंपरा","केवल यूनानी परंपरा","केवल रोमन परंपरा","इनमें से कोई नहीं"],
+a:0
+}
+];
+
+
+/* =====================================================
+VARIABLES
+===================================================== */
+
+let currentQuestion = 0;
+let selectedAnswers = [];
+let userName = "";
+let quizStartTime = 0;
+let timerInterval = null;
+
+const TWO_HOURS = 2 * 60 * 60 * 1000;
+
+
+/* =====================================================
+QUIZ START
+===================================================== */
+
+function startQuiz(){
+
+    userName =
+    document.getElementById("userName").value.trim();
+
+    if(userName === ""){
+
+        alert("कृपया अपना नाम लिखें।");
+
+        return;
+    }
+
+    currentQuestion = 0;
+
+    selectedAnswers = [];
+
+    quizStartTime = Date.now();
+
+    saveQuiz();
+
+    startTimer();
+
+    document.getElementById("startScreen")
+    .style.display = "none";
+
+    document.getElementById("quizScreen")
+    .style.display = "block";
+
+    document.getElementById("submitScreen")
+    .style.display = "none";
+
+    document.getElementById("resultScreen")
+    .style.display = "none";
+
+    document.getElementById("reviewScreen")
+    .style.display = "none";
+
+    showQuestion();
+}
+
+
+/* =====================================================
+SHOW QUESTION
+===================================================== */
+
+function showQuestion(){
+
+    const question =
+    questions[currentQuestion];
+
+    document.getElementById("questionNumber")
+    .innerText =
+    "प्रश्न " +
+    (currentQuestion + 1) +
+    " / " +
+    questions.length;
+
+    document.getElementById("questionText")
+    .innerText =
+    question.q;
+
+    const options =
+    document.getElementById("options");
+
+    options.innerHTML = "";
+
+
+    question.o.forEach(function(option,index){
+
+        const button =
+        document.createElement("button");
+
+        button.className = "option";
+
+        button.innerText =
+        String.fromCharCode(65 + index) +
+        ". " +
+        option;
+
+        button.onclick = function(){
+
+            selectAnswer(index);
+
+        };
+
+        options.appendChild(button);
+
+    });
+}
+
+
+/* =====================================================
+SELECT ANSWER
+===================================================== */
+
+function selectAnswer(index){
+
+    /*
+    एक प्रश्न में केवल एक उत्तर
+    */
+
+    if(
+        selectedAnswers[currentQuestion]
+        !== undefined
+    ){
+
+        return;
+    }
+
+
+    selectedAnswers[currentQuestion] =
+    index;
+
+    saveQuiz();
+
+
+    /*
+    आखिरी प्रश्न
+    */
+
+    if(
+        currentQuestion ===
+        questions.length - 1
+    ){
+
+        setTimeout(function(){
+
+            document.getElementById("quizScreen")
+            .style.display = "none";
+
+            document.getElementById("submitScreen")
+            .style.display = "block";
+
+        },300);
+
+        return;
+    }
+
+
+    /*
+    अगला प्रश्न अपने आप
+    */
+
+    setTimeout(function(){
+
+        currentQuestion++;
+
+        saveQuiz();
+
+        showQuestion();
+
+    },300);
+}
+
+
+/* =====================================================
+SUBMIT
+===================================================== */
+
+function submitQuiz(){
+
+    let unanswered = [];
+
+    for(
+        let i = 0;
+        i < questions.length;
+        i++
+    ){
+
+        if(
+            selectedAnswers[i] === undefined
+        ){
+
+            unanswered.push(i + 1);
+        }
+    }
+
+
+    if(unanswered.length > 0){
+
+        alert(
+            "इन प्रश्नों का उत्तर बाकी है: " +
+            unanswered.join(", ")
+        );
+
+        return;
+    }
+
+
+    finishQuiz();
+}
+
+
+/* =====================================================
+TIMER
+===================================================== */
+
+function startTimer(){
+
+    clearInterval(timerInterval);
+
+    timerInterval =
+    setInterval(function(){
+
+        let remaining =
+        TWO_HOURS -
+        (
+            Date.now() -
+            quizStartTime
+        );
+
+
+        if(remaining <= 0){
+
+            clearInterval(timerInterval);
+
+            alert(
+                "⏰ 2 घंटे का समय समाप्त हो गया।"
+            );
+
+            finishQuiz();
+
+            return;
+        }
+
+
+        const hours =
+        Math.floor(
+            remaining / 3600000
+        );
+
+        const minutes =
+        Math.floor(
+            (remaining % 3600000) / 60000
+        );
+
+        const seconds =
+        Math.floor(
+            (remaining % 60000) / 1000
+        );
+
+
+        document.getElementById("timer")
+        .innerText =
+        "⏱️ समय: " +
+        String(hours).padStart(2,"0") +
+        ":" +
+        String(minutes).padStart(2,"0") +
+        ":" +
+        String(seconds).padStart(2,"0");
+
+    },1000);
+}
+
+
+/* =====================================================
+FINISH QUIZ
+===================================================== */
+
+function finishQuiz(){
+
+    clearInterval(timerInterval);
+
+    let correct = 0;
+
+
+    questions.forEach(function(question,index){
+
+        if(
+            selectedAnswers[index] ===
+            question.a
+        ){
+
+            correct++;
+        }
+
+    });
+
+
+    const wrong =
+    questions.length - correct;
+
+
+    const percentage =
+    Math.round(
+        correct / questions.length * 100
+    );
+
+
+    const date =
+    new Date().toLocaleString("hi-IN");
+
+
+    const result = {
+
+        name:userName,
+
+        correct:correct,
+
+        wrong:wrong,
+
+        percentage:percentage,
+
+        answers:selectedAnswers,
+
+        date:date
+
+    };
+
+
+    localStorage.setItem(
+        "lastQuizResult",
+        JSON.stringify(result)
+    );
+
+
+    localStorage.removeItem(
+        "quizData"
+    );
+
+
+    document.getElementById("quizScreen")
+    .style.display = "none";
+
+    document.getElementById("submitScreen")
+    .style.display = "none";
+
+    document.getElementById("resultScreen")
+    .style.display = "block";
+
+
+    document.getElementById("resultName")
+    .innerText =
+    "नाम: " +
+    userName;
+
+
+    document.getElementById("correctResult")
+    .innerText =
+    "✅ सही उत्तर: " +
+    correct +
+    " / 50";
+
+
+    document.getElementById("wrongResult")
+    .innerText =
+    "❌ गलत उत्तर: " +
+    wrong +
+    " / 50";
+
+
+    document.getElementById("percentageResult")
+    .innerText =
+    "📊 प्रतिशत: " +
+    percentage +
+    "%";
+
+
+    document.getElementById("dateResult")
+    .innerText =
+    "🕐 समय: " +
+    date;
+}
+
+
+/* =====================================================
+REVIEW
+===================================================== */
+
+function showReview(){
+
+    document.getElementById("resultScreen")
+    .style.display = "none";
+
+    document.getElementById("reviewScreen")
+    .style.display = "block";
+
+
+    const review =
+    document.getElementById("review");
+
+    review.innerHTML = "";
+
+
+    questions.forEach(function(question,index){
+
+        const userAnswer =
+        selectedAnswers[index];
+
+        const correct =
+        userAnswer === question.a;
+
+
+        const box =
+        document.createElement("div");
+
+        box.className =
+        "reviewBox";
+
+
+        box.innerHTML =
+
+        "<h3>प्रश्न " +
+        (index + 1) +
+        "</h3>" +
+
+        "<p><b>" +
+        question.q +
+        "</b></p>" +
+
+        "<p>आपका उत्तर: " +
+        (
+            userAnswer !== undefined
+            ?
+            question.o[userAnswer]
+            :
+            "कोई उत्तर नहीं"
+        ) +
+        "</p>" +
+
+        "<p>सही उत्तर: " +
+        question.o[question.a] +
+        "</p>" +
+
+        "<p>" +
+        (
+            correct
+            ?
+            "✅ सही"
+            :
+            "❌ गलत"
+        ) +
+        "</p>";
+
+
+        review.appendChild(box);
+
+    });
+}
+
+
+/* =====================================================
+SAVE QUIZ
+===================================================== */
+
+function saveQuiz(){
+
+    const data = {
+
+        name:userName,
+
+        currentQuestion:currentQuestion,
+
+        selectedAnswers:selectedAnswers,
+
+        quizStartTime:quizStartTime
+
+    };
+
+
+    localStorage.setItem(
+        "quizData",
+        JSON.stringify(data)
+    );
+}
+
+
+/* =====================================================
+LOAD SAVED QUIZ
+===================================================== */
+
+function loadQuiz(){
+
+    const saved =
+    localStorage.getItem("quizData");
+
+
+    if(!saved){
+
+        return;
+    }
+
+
+    try{
+
+        const data =
+        JSON.parse(saved);
+
+
+        const timePassed =
+        Date.now() -
+        data.quizStartTime;
+
+
+        if(
+            timePassed > TWO_HOURS
+        ){
+
+            localStorage.removeItem(
+                "quizData"
+            );
+
+            return;
+        }
+
+
+        userName =
+        data.name;
+
+        currentQuestion =
+        data.currentQuestion;
+
+        selectedAnswers =
+        data.selectedAnswers;
+
+        quizStartTime =
+        data.quizStartTime;
+
+
+        document.getElementById("startScreen")
+        .style.display = "none";
+
+        document.getElementById("quizScreen")
+        .style.display = "block";
+
+
+        startTimer();
+
+        showQuestion();
+
+    }
+
+    catch(error){
+
+        localStorage.removeItem(
+            "quizData"
+        );
+
+    }
+}
+
+
+/* =====================================================
+VOICE
+===================================================== */
+
+function speakText(text){
+
+    if(
+        !("speechSynthesis" in window)
+    ){
+
+        alert(
+            "आपके ब्राउज़र में आवाज़ की सुविधा उपलब्ध नहीं है।"
+        );
+
+        return;
+    }
+
+
+    speechSynthesis.cancel();
+
+
+    const speech =
+    new SpeechSynthesisUtterance(text);
+
+
+    speech.lang = "hi-IN";
+
+    speech.rate = 0.9;
+
+
+    speechSynthesis.speak(speech);
+}
+
+
+/* =====================================================
+QUESTION VOICE
+===================================================== */
+
+function speakCurrentQuestion(){
+
+    const question =
+    questions[currentQuestion];
+
+
+    let text =
+    question.q +
+    ". विकल्प हैं। ";
+
+
+    question.o.forEach(function(option,index){
+
+        text +=
+        String.fromCharCode(65 + index) +
+        ". " +
+        option +
+        ". ";
+
+    });
+
+
+    speakText(text);
+}
+
+
+/* =====================================================
+DOWNLOAD RESULT
+===================================================== */
+
+function downloadResult(){
+
+    const result =
+    JSON.parse(
+        localStorage.getItem(
+            "lastQuizResult"
+        )
+    );
+
+
+    if(!result){
+
+        alert(
+            "Result उपलब्ध नहीं है।"
+        );
+
+        return;
+    }
+
+
+    const text =
+
+    "जय माधोरा धाम\n" +
+
+    "निर्माता: प्रियांश यादव\n\n" +
+
+    "धार्मिक ज्ञान Quiz Result\n\n" +
+
+    "नाम: " +
+    result.name +
+
+    "\nसही उत्तर: " +
+    result.correct +
+    " / 50" +
+
+    "\nगलत उत्तर: " +
+    result.wrong +
+    " / 50" +
+
+    "\nप्रतिशत: " +
+    result.percentage +
+    "%" +
+
+    "\nसमय: " +
+    result.date;
+
+
+    const blob =
+    new Blob(
+        [text],
+        {
+            type:
+            "text/plain;charset=utf-8"
+        }
+    );
+
+
+    const url =
+    URL.createObjectURL(blob);
+
+
+    const a =
+    document.createElement("a");
+
+
+    a.href = url;
+
+
+    a.download =
+    "Quiz-Result-" +
+    result.name +
+    ".txt";
+
+
+    a.click();
+
+
+    URL.revokeObjectURL(url);
+}
+
+
+/* =====================================================
+SHARE RESULT
+===================================================== */
+
+function shareResult(){
+
+    const result =
+    JSON.parse(
+        localStorage.getItem(
+            "lastQuizResult"
+        )
+    );
+
+
+    if(!result){
+
+        alert(
+            "Result उपलब्ध नहीं है।"
+        );
+
+        return;
+    }
+
+
+    const text =
+
+    "🙏 जय माधोरा धाम\n\n" +
+
+    "धार्मिक ज्ञान Quiz Result\n\n" +
+
+    "नाम: " +
+    result.name +
+
+    "\nसही उत्तर: " +
+    result.correct +
+    " / 50" +
+
+    "\nगलत उत्तर: " +
+    result.wrong +
+    " / 50" +
+
+    "\nप्रतिशत: " +
+    result.percentage +
+    "%" +
+
+    "\n\nनिर्माता: प्रियांश यादव";
+
+
+    if(navigator.share){
+
+        navigator.share({
+
+            title:"Quiz Result",
+
+            text:text
+
+        }).catch(function(){});
+
+    }
+
+    else{
+
+        navigator.clipboard
+        .writeText(text)
+        .then(function(){
+
+            alert(
+                "Result कॉपी हो गया।"
+            );
+
+        });
+
+    }
+}
+
+
+/* =====================================================
+RESTART
+===================================================== */
+
+function restartQuiz(){
+
+    clearInterval(timerInterval);
+
+
+    localStorage.removeItem(
+        "quizData"
+    );
+
+
+    localStorage.removeItem(
+        "lastQuizResult"
+    );
+
+
+    currentQuestion = 0;
+
+    selectedAnswers = [];
+
+    userName = "";
+
+    quizStartTime = 0;
+
+
+    document.getElementById("userName")
+    .value = "";
+
+
+    document.getElementById("startScreen")
+    .style.display = "block";
+
+
+    document.getElementById("quizScreen")
+    .style.display = "none";
+
+
+    document.getElementById("submitScreen")
+    .style.display = "none";
+
+
+    document.getElementById("resultScreen")
+    .style.display = "none";
+
+
+    document.getElementById("reviewScreen")
+    .style.display = "none";
+}
+
+
+/* =====================================================
+PAGE LOAD
+===================================================== */
+
+loadQuiz();
+
+</script>
+
+</div>
+
+</body>
+</html>
